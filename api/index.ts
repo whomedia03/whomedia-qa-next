@@ -53,6 +53,22 @@ export async function handler(req: Request): Promise<Response> {
    const reviews = await records<Review>(admin ? 'reviews/' : `reviews/${project}/${video ? `${video}/` : ''}`);
    return json({ projects, videos: videos.map(({ pathname: _, ...v }) => v), reviews, baseUrl });
   }
+  if (action === 'qr' && req.method === 'GET') {
+   requireValue(token && claims?.role === 'reviewer' && safeId(project), '유효한 제출 링크가 필요합니다.', 403);
+   const item = await read<Project>(`projects/${project}.json`); requireValue(item, '프로젝트를 찾을 수 없습니다.', 404);
+   let title = '전체';
+   if (video) {
+    requireValue(safeId(video), '영상 정보를 확인해 주세요.');
+    const lecture = await read<Video>(`videos/${project}/${video}.json`); requireValue(lecture, '영상을 찾을 수 없습니다.', 404);
+    title = `${lecture.week}주차_${lecture.title}`;
+   }
+   const link = new URL(baseUrl); link.searchParams.set('p', project); link.searchParams.set('token', token); if (video) link.searchParams.set('v', video);
+   const { default: QRCode } = await import('qrcode');
+   const png = await QRCode.toBuffer(link.href, { width: 1600, margin: 4, errorCorrectionLevel: 'M' });
+   const filename = `${item.alias}_${title}_QR.png`.replace(/[<>:"/\\|?*\u0000-\u001f]/g, '_');
+   const encodedName = encodeURIComponent(filename).replace(/['()*]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
+   return new Response(Uint8Array.from(png), { headers: { 'Content-Type': 'image/png', 'Content-Disposition': `attachment; filename="${item.alias}_QR.png"; filename*=UTF-8''${encodedName}`, 'Cache-Control': 'private, no-store' } });
+  }
   if (action === 'media' && req.method === 'GET') {
    requireValue(safeId(project) && safeId(video), '영상을 찾을 수 없습니다.', 404);
    const item = await read<Video>(`videos/${project}/${video}.json`); requireValue(item, '영상을 찾을 수 없습니다.', 404);
