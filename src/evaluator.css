@@ -1,0 +1,176 @@
+/* The submitted link gets a focused, high-contrast institutional reading surface. */
+:root:has(.evaluator-app) { color-scheme: light; background: #f3f6fa; }
+.evaluator-app {
+  --review-text: #172c45;
+  --review-muted: #52677d;
+  --review-line: #d8e1ea;
+  color-scheme: light;
+  width: 100%;
+  max-width: none;
+  min-height: 100dvh;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: #f3f6fa;
+  box-shadow: none;
+  color: var(--review-text);
+  font-size: 16px;
+}
+.evaluator-app h1,.evaluator-app h2,.evaluator-app h3 { color: var(--review-text); }
+.evaluator-app p,.evaluator-app small,.evaluator-app .muted { color: var(--review-muted); }
+.evaluator-app button,.evaluator-app .button { background: #fff; color: #304d6b; border: 1px solid #b7c8d9; border-radius: 7px; font-size: 15px; box-shadow: none; }
+.evaluator-app button:hover,.evaluator-app .button:hover { background: #eaf1f8; border-color: #55789e; }
+.evaluator-app button.primary,.evaluator-app a.primary { background: #1b416d; color: #fff; border: 1px solid #1b416d; box-shadow: none; font-size: 16px; font-weight: 700; }
+.evaluator-app button.primary:hover,.evaluator-app a.primary:hover { background: #123354; }
+.evaluator-app :focus-visible { outline-color: #216cc1; outline-width: 3px; }
+.evaluator-app input,.evaluator-app select,.evaluator-app textarea { background: #fff; color: #1c334d; border: 1px solid #adbfce; font-size: 16px; }
+.evaluator-app input::placeholder,.evaluator-app textarea::placeholder { color: #63768a; }
+.evaluator-app input:focus,.evaluator-app textarea:focus,.evaluator-app select:focus { border-color: #2b6aab; outline-color: #a2c7f0; }
+.evaluator-app .sidebar { top: 0; width: 270px; background: #102942; border-right: 1px solid #1d3c59; padding: 36px 22px; }
+.evaluator-app .brand { margin: 0 0 42px; }
+.evaluator-app .brand-wordmark { font-size: 29px; }
+.evaluator-app .brand-title { color: #fff; font-size: 15px; }
+.evaluator-app .brand .brand-subtitle { color: #c0cfde; font-size: 13px; }
+.evaluator-app .brand-media { color: #fff; }
+.evaluator-app .workspace-label { color: #b6c8da; font-size: 13px; letter-spacing: .5px; }
+.evaluator-app .nav-item.current { background: #244563; color: #fff; border: 0; border-radius: 7px; box-shadow: inset 3px 0 #77ade1; font-size: 16px; }
+.evaluator-app .project-heading { color: #b7cada; font-size: 13px; margin-top: 35px; }
+.evaluator-app .project-item { color: #fff; background: transparent; border: 0; padding: 13px 14px; font-size: 16px; font-weight: 600; white-space: normal; }
+.evaluator-app .project-item.selected { background: #1b3a57; color: #fff; }
+.evaluator-app .project-dot { background: #adc8e5; box-shadow: none; }
+.evaluator-app .sidebar-bottom { border-color: #36506a; color: #c4d4e4; }
+.evaluator-app .sidebar-bottom small { color: #becfe0; font-size: 12px; }
+.evaluator-app .main-shell { margin-left: 270px; min-height: 100dvh; }
+.evaluator-app .topbar { height: 76px; background: #fff; border-color: var(--review-line); color: #576c82; font-size: 14px; }
+.evaluator-app .topbar strong { color: #213f60; font-size: 15px; }
+.evaluator-app .online { color: #3e6554; font-size: 13px; }
+.evaluator-app .online i { background: #39825d; box-shadow: none; }
+.evaluator-app .main-shell main { max-width: 1500px; padding: 39px 36px 20px; }
+.evaluator-app .eyebrow { color: #466684; font-size: 13px; letter-spacing: 1.5px; }
+.evaluator-app .page-heading { margin-bottom: 26px; }
+.evaluator-app .page-heading h1 { font-size: 32px; line-height: 1.5; letter-spacing: -1px; }
+.evaluator-app .page-heading p { font-size: 16px; line-height: 1.8; }
+.evaluator-app .pill { background: #e8eff7; border-color: #c3d2e1; color: #365b80; font-size: 13px; border-radius: 5px; }
+.reviewer-intro { border: 1px solid #cedcea; border-left: 4px solid #2f5f90; border-radius: 8px; background: #fff; padding: 22px 24px; margin-bottom: 26px; }
+.reviewer-intro>div { display: grid; grid-template-columns: 25px 1fr; gap: 3px 11px; align-items: center; }
+.reviewer-intro svg { color: #355f89; }
+.reviewer-intro strong { font-size: 17px; color: #203e5e; }
+.reviewer-intro p { grid-column: 2; font-size: 15px; margin: 4px 0 0; line-height: 1.8; }
+.reviewer-intro ol { display: flex; flex-wrap: wrap; gap: 14px 30px; list-style: none; padding: 18px 0 0 36px; margin: 0; }
+.reviewer-intro li { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #425e79; font-weight: 600; }
+.reviewer-intro li span { display: inline-grid; place-items: center; background: #e9f0f8; color: #2e557b; border-radius: 50%; width: 24px; height: 24px; font-size: 13px; }
+.evaluator-app .stats { gap: 16px; margin-bottom: 28px; }
+.evaluator-app .stat { background: #fff; border-color: #d5e0e9; box-shadow: 0 2px 5px #1c355005; padding: 23px; }
+.evaluator-app .stat::before { display: none; }
+.evaluator-app .stat>div>span { color: #52677b; font-size: 15px; }
+.evaluator-app .stat strong { color: #1c3856; font-size: 34px; }
+.evaluator-app .stat strong small { color: #657b8f; font-size: 14px; }
+.evaluator-app .stat>svg { background: #eaf0f7; color: #40648b; }
+.evaluator-app .stat.amber>svg { background: #fff3d9; color: #947018; }
+.evaluator-app .stat.red>svg { background: #fbece9; color: #ab4b3e; }
+.evaluator-app .stat.green>svg { background: #e7f3ed; color: #28704d; }
+.evaluator-app .content-panel { background: #fff; border-color: #cbd8e5; border-radius: 9px; box-shadow: 0 3px 12px #19304705; }
+.evaluator-app .panel-tabs { border-color: #d4dfea; min-height: 76px; }
+.evaluator-app .panel-tabs>div { min-height: 76px; }
+.evaluator-app .panel-tabs button { background: transparent; border: 0; color: #5d7185; font-size: 16px; }
+.evaluator-app .panel-tabs button.active { color: #183e68; }
+.evaluator-app .panel-tabs button.active::after { background: #24558b; box-shadow: none; height: 3px; }
+.evaluator-app .panel-tabs button span { background: #e8eff7; color: #31577d; font-size: 13px; }
+.evaluator-app .panel-tabs>button { font-size: 14px; color: #365b7e; }
+.evaluator-app .toolbar { padding: 22px; gap: 16px; }
+.evaluator-app .filters { gap: 7px; }
+.evaluator-app .filters button { background: #fff; border: 1px solid #ccd8e4; color: #4c6278; padding: 9px 12px; font-size: 14px; }
+.evaluator-app .filters button.active { background: #1d416b; color: #fff; border-color: #1d416b; }
+.evaluator-app .search { border-color: #b8c8d8; background: #fff; color: #526f8c; }
+.evaluator-app .search input { font-size: 15px; border: 0; color: #24405d; }
+.evaluator-app th { background: #edf2f7; color: #415d76; border-color: #ccd9e5; font-size: 14px; padding-top: 17px; padding-bottom: 17px; }
+.evaluator-app td { color: #445e77; border-color: #e0e7ef; font-size: 15px; padding-top: 23px; padding-bottom: 23px; }
+.evaluator-app tbody tr:hover { background: #f5f8fc; }
+.evaluator-app .video-title { background: transparent; border: 0; color: #183d64; }
+.evaluator-app .video-title strong { font-size: 17px; line-height: 1.6; max-width: 340px; white-space: normal; }
+.evaluator-app .video-title small { font-size: 13px; color: #60768b; }
+.evaluator-app .video-thumb { background: #e9f0f8; border-color: #c7d6e5; color: #325e8d; width: 46px; height: 43px; }
+.evaluator-app .status { font-size: 13px; padding: 6px 10px; border-radius: 5px; }
+.evaluator-app .status.pending { color: #7c5c12; background: #fff3d3; }
+.evaluator-app .status.changes { color: #983d30; background: #fcebe7; }
+.evaluator-app .status.approved { color: #1e6442; background: #e5f3eb; }
+.evaluator-app .empty { color: #5d7b98; min-height: 300px; }
+.evaluator-app .empty-icon { background: #edf3f9; border-color: #a8bfd4; color: #436b91; box-shadow: none; }
+.evaluator-app .empty h3 { color: #294963; font-size: 19px; }
+.evaluator-app .empty p { color: #566f84; font-size: 15px; }
+.evaluator-app .panel-footer { background: #f7f9fc; color: #5d7185; border-color: #dae3ec; font-size: 13px; padding: 18px 23px; }
+.evaluator-app .help-card { background: #eaf0f7; border-color: #c7d7e6; padding: 22px; }
+.evaluator-app .icon-box { background: #d9e6f3; color: #345e87; }
+.evaluator-app .help-card strong { color: #284b6a; font-size: 16px; }
+.evaluator-app .help-card p { color: #526e87; font-size: 14px; }
+.evaluator-app .main-shell footer { color: #60768a; font-size: 13px; }
+.evaluator-app .review-list article { border-color: #d8e2eb; }
+.evaluator-app .review-list article strong { color: #234766; font-size: 16px; }
+.evaluator-app .review-list p { color: #334e66; font-size: 16px; }
+.evaluator-app .review-list small { color: #5e7488; font-size: 13px; }
+.evaluator-app .overlay { background: #10283b99; }
+.evaluator-app .modal,.evaluator-app .review-modal { background: #fff; color: #19344e; border: 1px solid #bed0df; box-shadow: 0 15px 60px #0d233733; }
+.evaluator-app .review-modal>header { background: #fff; border-color: #cdd9e5; padding: 24px 28px; }
+.evaluator-app .review-modal>header button { color: #37566f; background: #f1f5f9; }
+.evaluator-app .review-modal h2 { color: #1c3c5e; font-size: 24px; line-height: 1.5; }
+.evaluator-app .review-modal small { color: #5b7186; font-size: 14px; }
+.evaluator-app .player-area { background: #edf2f7; }
+.evaluator-app .player-caption { color: #4e6982; font-size: 14px; line-height: 1.8; }
+.evaluator-app .review-side { border-color: #cddae6; }
+.evaluator-app .review-side h3 { color: #203e5c; font-size: 18px; }
+.evaluator-app .review-side h3 span { color: #385f85; }
+.evaluator-app .review-side label { color: #3b566e; font-size: 14px; }
+.evaluator-app .comments article { border-color: #d3e0eb; }
+.evaluator-app .comments strong { font-size: 15px; color: #264663; }
+.evaluator-app .comments p { color: #334f68; font-size: 16px; line-height: 1.9; }
+.evaluator-app .comments small { color: #597288; font-size: 12px; }
+.evaluator-app .timecode { color: #22558a; background: #e8f1fa; font-size: 14px; padding: 5px 8px; }
+.evaluator-app .error { background: #fff0ec; color: #8f382b; border-color: #e4b3a9; font-size: 15px; }
+.evaluator-app .toast { color: #fff; background: #244f77; border-color: #244f77; font-size: 15px; }
+@media(max-width:1150px) {
+  .evaluator-app .sidebar { width: 245px; padding: 30px 18px; }
+  .evaluator-app .main-shell { margin-left: 245px; }
+  .evaluator-app .main-shell main { padding: 30px 26px 18px; }
+  .evaluator-app .stats { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .evaluator-app .stat { min-height: 132px; }
+}
+@media(max-width:800px) {
+  .evaluator-app .sidebar { position: static; width: 100%; padding: 24px; }
+  .evaluator-app .brand { margin: 0; }
+  .evaluator-app .brand-title { font-size: 16px; }
+  .evaluator-app .sidebar .project-heading { display: block; margin: 20px 0 7px; color: #b7cada; font-size: 13px; }
+  .evaluator-app .sidebar nav { margin-top: 6px; }
+  .evaluator-app .sidebar .project-item { font-size: 16px; padding: 10px 13px; }
+  .evaluator-app .main-shell { margin-left: 0; min-height: auto; }
+  .evaluator-app .topbar { height: auto; min-height: 62px; padding: 13px 22px; font-size: 13px; }
+  .evaluator-app .topbar strong { font-size: 14px; max-width: 180px; }
+  .evaluator-app .online { font-size: 12px; }
+  .evaluator-app .main-shell main { padding: 27px 18px 18px; }
+  .evaluator-app .page-heading h1 { font-size: 28px; }
+  .evaluator-app .page-heading p { font-size: 15px; }
+  .reviewer-intro { padding: 19px 17px; }
+  .reviewer-intro strong { font-size: 16px; }
+  .reviewer-intro p { font-size: 14px; }
+  .reviewer-intro ol { padding: 16px 0 0; gap: 12px; }
+  .reviewer-intro li { font-size: 13px; gap: 5px; }
+  .reviewer-intro li span { width: 21px; height: 21px; font-size: 12px; }
+  .evaluator-app .stats { gap: 12px; }
+  .evaluator-app .stat { padding: 18px; min-height: 151px; }
+  .evaluator-app .stat>div>span { font-size: 14px; max-width: calc(100% - 22px); }
+  .evaluator-app .stat>svg { right: 12px; top: 19px; width: 18px; }
+  .evaluator-app .stat strong { font-size: 33px; }
+  .evaluator-app .panel-tabs { padding: 0 17px 12px; }
+  .evaluator-app .panel-tabs>div { min-height: 67px; }
+  .evaluator-app .panel-tabs button { font-size: 16px; }
+  .evaluator-app .panel-tabs>button { font-size: 14px; }
+  .evaluator-app .toolbar { padding: 18px 15px; }
+  .evaluator-app .filters { gap: 7px; }
+  .evaluator-app .filters button { font-size: 14px; padding: 8px 10px; }
+  .evaluator-app .search input { font-size: 16px; }
+  .evaluator-app .help-card { padding: 18px; }
+  .evaluator-app .help-card strong { font-size: 15px; }
+  .evaluator-app .help-card p { font-size: 14px; }
+  .evaluator-app .main-shell footer { padding: 22px 18px; font-size: 12px; }
+  .evaluator-app .review-modal>header { padding: 19px; }
+  .evaluator-app .review-modal h2 { font-size: 21px; }
+}

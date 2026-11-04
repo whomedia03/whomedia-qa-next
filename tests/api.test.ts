@@ -38,6 +38,15 @@ test('API: 프로젝트·영상·의견·QR 발급 흐름 및 기관 격리', as
  const shared = await request('share', { admin: true, body: { project, video: 'vid-a' } }); const link = new URL((await shared.json()).url); const token = link.searchParams.get('token')!;
  const dataResponse = await request('data', { project, video: 'vid-a', token }); assert.equal(dataResponse.status, 200);
  const data = await dataResponse.json(); assert.equal(data.projects.length, 1); assert.equal(data.videos.length, 1); assert.equal(data.videos[0].pathname, undefined);
+ const sessionWithLink = await request('session', { admin: true, project, video: 'vid-a', token });
+ assert.equal((await sessionWithLink.json()).admin, false);
+ const dataWithAdminCookie = await (await request('data', { admin: true, project, video: 'vid-a', token })).json();
+ assert.equal(dataWithAdminCookie.projects.length, 1); assert.equal(dataWithAdminCookie.projects[0].id, project);
+ assert.equal(dataWithAdminCookie.videos.length, 1); assert.equal(dataWithAdminCookie.videos[0].id, 'vid-a');
+ assert.equal((await request('data', { admin: true, project, video: 'vid-b', token })).status, 401);
+ assert.equal((await request('data', { admin: true, project: 'khcu', video: 'vid-a', token })).status, 401);
+ assert.equal((await request('data', { admin: true, project, video: 'vid-a', token: token + 'tampered' })).status, 401);
+ assert.equal((await request('project', { admin: true, project, video: 'vid-a', token, body: { name: 'forbidden', alias: 'forbidden' } })).status, 403);
  assert.equal((await request('data', { project, video: 'vid-b', token })).status, 401);
  assert.equal((await request('data', { project, token })).status, 401);
  assert.equal((await request('data', { project: 'khcu', video: 'vid-a', token })).status, 401);

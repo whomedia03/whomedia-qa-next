@@ -15,8 +15,11 @@ export async function handler(req: Request): Promise<Response> {
   const url = new URL(req.url); const action = url.searchParams.get('action') || 'data';
   requireValue(process.env.BLOB_READ_WRITE_TOKEN && process.env.ADMIN_PASSWORD && process.env.ADMIN_PASSWORD.length >= 32 && process.env.SESSION_SECRET && process.env.SESSION_SECRET.length >= 32, 'Vercel에서 Private Blob과 관리자 환경 변수를 설정해 주세요.', 503);
   const cookie = req.headers.get('cookie')?.split(';').map(s => s.trim()).find(s => s.startsWith('qa_session='))?.slice(11) || '';
-  const session = verify(cookie); const admin = session?.role === 'admin';
-  const token = url.searchParams.get('token') || ''; const claims = admin ? session : verify(token);
+  const session = verify(cookie);
+  const token = url.searchParams.get('token') || '';
+  // A submitted review link always keeps its own scope, even in an administrator's browser.
+  const admin = session?.role === 'admin' && !token;
+  const claims = token ? verify(token) : admin ? session : null;
   const project = url.searchParams.get('p') || ''; const video = url.searchParams.get('v') || '';
   const secure = url.protocol === 'https:' ? '; Secure' : '';
   if (req.method !== 'GET' && action !== 'upload') {
