@@ -91,7 +91,7 @@ export async function handler(req: Request): Promise<Response> {
    requireValue(await read(`videos/${b.project}/${b.video}.json`), '영상을 찾을 수 없습니다.', 404);
    requireValue(['pending', 'approved', 'changes'].includes(b.status) && Number.isFinite(b.time) && b.time >= 0 && b.time < 604800, '검수 내용을 확인해 주세요.');
    const author = text(b.author, 60); const note = text(b.text, 4000); requireValue(author && note, '검수자 이름과 의견을 입력해 주세요.');
-   const item: Review = { id: randomUUID(), project: b.project, video: b.video, author, text: note, time: b.time, status: b.status, createdAt: new Date().toISOString() };
+   const item: Review = { id: randomUUID(), project: b.project, video: b.video, author, text: note, time: b.time, timestampAttached: b.timestampAttached !== false, status: b.status, createdAt: new Date().toISOString() };
    await write(`reviews/${item.project}/${item.video}/${item.id}.json`, item); return json(item, 201);
   }
   if (action === 'delete' && req.method === 'POST') {

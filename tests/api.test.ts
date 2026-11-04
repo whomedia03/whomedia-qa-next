@@ -51,9 +51,11 @@ test('API: 프로젝트·영상·의견·QR 발급 흐름 및 기관 격리', as
  assert.equal((await request('data', { project, token })).status, 401);
  assert.equal((await request('data', { project: 'khcu', video: 'vid-a', token })).status, 401);
  const body = { project, video: 'vid-a', author: '심사위원', text: '음량을 확인해 주세요.', status: 'changes', time: 12 };
- const replies = await Promise.all([request('review', { project, video: 'vid-a', token, body }), request('review', { project, video: 'vid-a', token, body: { ...body, text: '자막 확인' } })]);
+ const replies = await Promise.all([request('review', { project, video: 'vid-a', token, body }), request('review', { project, video: 'vid-a', token, body: { ...body, text: '자막 확인', time: 0, timestampAttached: false } })]);
  assert.deepEqual(replies.map(r => r.status), [201, 201]);
  const refreshed = await (await request('data', { project, video: 'vid-a', token })).json(); assert.equal(refreshed.reviews.length, 2);
+ assert.equal(refreshed.reviews.find((review: { text: string }) => review.text === '자막 확인').timestampAttached, false);
+ assert.equal(refreshed.reviews.find((review: { text: string }) => review.text === '음량을 확인해 주세요.').timestampAttached, true);
  assert.equal((await request('review', { project, video: 'vid-a', token, body: { ...body, video: 'vid-b' } })).status, 403);
  assert.equal((await request('project', { project, video: 'vid-a', token, body: { name: 'forbidden', alias: 'forbidden' } })).status, 403);
  const removed = await request('delete', { admin: true, body: { project, video: 'vid-a' } }); assert.equal(removed.status, 200);
