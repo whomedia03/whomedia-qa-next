@@ -1,0 +1,162 @@
+/* Design 2: cobalt light, frosted panels and concentric signal rings. */
+:root { --cyan: #80ceff; --lime: #a6dbff; }
+body {
+  background-color: #04112c;
+  background-image: radial-gradient(ellipse at 50% 0,#11498870,transparent 58%),radial-gradient(ellipse at 10% 90%,#0c388b44,transparent 55%);
+  background-size: auto;
+}
+.brand .brand-wordmark { letter-spacing: .3px; }
+.sidebar .brand .brand-subtitle { font-size: 12px; }
+.welcome {
+  border: 1px solid #58bbff;
+  border-radius: 16px;
+  background-color: #061436;
+  background-image: radial-gradient(circle at 13% 27%,#70c5ff30 0 1px,transparent 2px),radial-gradient(circle at 78% 66%,#88ceff22 0 1px,transparent 2px),radial-gradient(ellipse at 8% 0,#0b3e8970,transparent 65%),linear-gradient(130deg,#091b46,#030b20);
+  background-size: 191px 241px,283px 271px,auto,auto;
+  box-shadow: 0 0 0 3px #1e7fd216,0 0 30px #168dff29,inset 0 0 55px #155bab12;
+}
+.welcome>.window-chrome,.admin-app>.window-chrome { display: none; }
+.welcome-nav { padding-top: 32px; }
+.welcome-grid { padding-top: 28px; padding-bottom: 45px; }
+.welcome-grid h1 em { color: #88d3ff; text-shadow: 0 0 25px #399eff30; }
+.welcome .eyebrow { color: #89caff; }
+.welcome-features svg { color: #9ad8ff; }
+.welcome-nav>span { color: #b1cbe9; }
+.welcome .login-card {
+  position: relative;
+  background: linear-gradient(145deg,#7ea3df19,#3c69a10e),#0c2144bb;
+  border: 1px solid #87b6ef80;
+  box-shadow: inset 0 1px #d3eaff20,0 18px 50px #0005,0 0 28px #337fde14;
+  backdrop-filter: blur(14px);
+  border-radius: 19px;
+  padding: 38px;
+}
+.welcome .login-card::before { content: ''; position: absolute; top: 0; left: 24px; right: 24px; height: 1px; background: linear-gradient(90deg,transparent,#b7dcffb3,transparent); }
+.welcome .login-card .icon-box { border-color: #6da9e19c; background: #2e64a647; color: #b9e6ff; box-shadow: 0 0 20px #3d9fff1a; }
+.welcome .login-card h2 { color: #fff; }
+.welcome .login-card>p,.welcome .login-card label { color: #c9d9ed; }
+.welcome .login-card input { background: #071730b3; border-color: #6896c680; border-radius: 10px; color: #edf8ff; padding: 14px; }
+.welcome .login-card input::placeholder { color: #9db5d1; }
+.welcome .login-card input:focus { border-color: #89ceff; outline-color: #63baff3d; }
+.welcome .login-card .primary { border: 1px solid #9edbffad; background: linear-gradient(100deg,#1463c5,#267aca); color: #fff; box-shadow: 0 5px 21px #126ad237,inset 0 1px #c4edff33; border-radius: 10px; min-height: 52px; font-weight: 700; }
+.welcome .login-card .primary:hover { background: linear-gradient(100deg,#1c71d9,#358de0); box-shadow: 0 6px 25px #1678e544; }
+.welcome .subtle-note { color: #b0c7e1; border-color: #6f97c438; }
+.welcome .subtle-note svg { color: #a4d0f3; }
+.welcome footer { color: #a0b8d5; }
+.welcome .review-orbit { height: 264px; }
+.welcome .orbit-ring { stroke: #7acbff; stroke-width: 1.5; filter: drop-shadow(0 0 4px #4bb9ff) drop-shadow(0 0 14px #126dce66); }
+.welcome .orbit-inner { stroke: #6fbfff77; stroke-dasharray: 1 5; }
+.welcome .orbit-track { stroke: #6eb8ff70; }
+.welcome .orbit-track.secondary { stroke: #70bfff45; }
+.welcome .orbit-frame { stroke: #bce7ff; fill: #0d305c; filter: drop-shadow(0 0 12px #39a3ff44); }
+.welcome .orbit-play { stroke: #d8f2ff; fill: #4daaf52b; }
+.welcome .orbit-corners { stroke: #87c9ff; }
+.welcome .orbit-satellite,.welcome .orbit-satellite.lime { fill: #96d9ff; filter: drop-shadow(0 0 6px #78c6ff); }
+.welcome .orbit-grid { background: radial-gradient(ellipse,#1672e222,transparent 68%); }
+.welcome .orbit-caption { color: #bddbf3; }
+.welcome .orbit-caption i { background: #81caff; box-shadow: 0 0 8px #61b7ff88; }
+.welcome .orbit-coordinate { color: #91b7d9; }
+
+/* Administrator pages share the blue framing without reducing text contrast. */
+.admin-app { border-color: #4c93d7b0; border-radius: 13px; background: #06132af5; box-shadow: 0 0 0 3px #1e7fd20b,0 0 28px #1c7bce22; }
+.admin-app .sidebar { top: 0; background: linear-gradient(180deg,#0b2447,#06172f); border-color: #2c527b; }
+.admin-app .main-shell { min-height: calc(100dvh - 50px); }
+.admin-app .topbar { background: #102b4c; border-color: #315a85; }
+.admin-app .topbar strong { color: #d4eaff; }
+.admin-app .eyebrow { color: #90c9ff; }
+.admin-app .workspace-label { color: #9ebcdb; }
+.admin-app .nav-item.current { color: #d5eeff; background: #1c4770; box-shadow: inset 3px 0 #92ccff; }
+.admin-app .project-heading { color: #b3cbe3; }
+.admin-app .project-item.selected { background: #183b63; color: #fff; }
+.admin-app .selected .project-dot { background: #9ed8ff; box-shadow: 0 0 8px #5cb6ff44; }
+.admin-app .project-item { color: #c2d5e9; }
+.admin-app .sidebar-bottom { border-color: #2d527b; color: #aacde9; }
+.admin-app .sidebar-bottom small { color: #9cb9d6; }
+.admin-app .online { color: #bad6ed; }
+.admin-app .online i { background: #82c9ff; box-shadow: 0 0 7px #4b9fdb55; }
+.admin-app button,.admin-app .button { color: #d0e5f7; background: #122d4f; border-color: #456b95; }
+.admin-app button:hover,.admin-app .button:hover { background: #204773; border-color: #82b8eb; }
+.admin-app button.primary,.admin-app a.primary { background: #1d65ba; border: 1px solid #8ac8ffa6; color: #fff; box-shadow: inset 0 1px #d6eeff26,0 4px 14px #0956bb26; font-weight: 700; }
+.admin-app button.primary:hover,.admin-app a.primary:hover { background: #2877d1; }
+.admin-app .pill { color: #c1e6ff; background: #1d4269; border-color: #4e7ca6; }
+.admin-app .stat { background: linear-gradient(140deg,#2446702b,#0b1e3a); border-color: #3a5e88; box-shadow: inset 0 1px #86b4e40b; }
+.admin-app .stat>div>span { color: #b4cbe2; }
+.admin-app .stat strong { color: #f1f8ff; }
+.admin-app .stat strong small { color: #b0c6dc; }
+.admin-app .stat::before { background: #81bdff; }
+.admin-app .stat>svg { background: #1d3c64; color: #a2cdff; }
+.admin-app .stat.amber>svg { background: #3e3520; color: #f0d386; }
+.admin-app .stat.amber::before { background: #f0d386; }
+.admin-app .stat.red>svg { background: #402b34; color: #ffb2a6; }
+.admin-app .stat.red::before { background: #ff9f91; }
+.admin-app .stat.green>svg { background: #1f3c37; color: #a8e8c8; }
+.admin-app .stat.green::before { background: #8dd8b4; }
+.admin-app .content-panel { background: #0b1e38; border-color: #3b618c; box-shadow: inset 0 1px #88b8e51a,0 8px 24px #0002; }
+.admin-app .panel-tabs { border-color: #365b86; }
+.admin-app .panel-tabs button { color: #b7cce0; background: none; border: 0; }
+.admin-app .panel-tabs button.active { color: #b0dfff; }
+.admin-app .panel-tabs button.active::after { background: #87c8ff; box-shadow: none; }
+.admin-app .panel-tabs button span { background: #244b77; color: #d0eaff; }
+.admin-app .filters button { color: #b6cde4; background: #112b4c; border-color: #365b85; }
+.admin-app .filters button.active { color: #e2f4ff; background: #265689; }
+.admin-app .search { border-color: #496f99; color: #a4c7e8; background: #081b33; }
+.admin-app .search input { background: transparent; }
+.admin-app input,.admin-app textarea,.admin-app select { background: #081b34; border-color: #4a7099; color: #e5f1ff; }
+.admin-app input::placeholder,.admin-app textarea::placeholder { color: #a0b9d2; }
+.admin-app th { background: #112e51; color: #c4ddf2; border-color: #35577d; }
+.admin-app td { border-color: #2b4b70; color: #b5cde3; }
+.admin-app tbody tr:hover { background: #112e4f; }
+.admin-app .video-title { color: #e1f1ff; background: transparent; border: 0; }
+.admin-app .video-title small { color: #adc7df; }
+.admin-app .video-thumb { background: #1d406a; border-color: #4a79a9; color: #afd9ff; }
+.admin-app .row-actions button { background: transparent; border: 0; color: #a5c5e4; }
+.admin-app .panel-footer { background: #0e2747; border-color: #305579; color: #aac5df; }
+.admin-app .help-card { background: #102f51; border-color: #416e98; }
+.admin-app .help-card .icon-box { color: #b2ddff; background: #224b76; }
+.admin-app .help-card strong { color: #d9edff; }
+.admin-app .help-card p { color: #b3cee5; }
+.admin-app .help-card button { color: #d2ecff; background: #244c74; border-color: #5f8caf; }
+.admin-app .main-shell footer { color: #9fbdd8; }
+.admin-app .modal,.admin-app .review-modal { background: linear-gradient(145deg,#1a396018,#04152e00),#0a1f3b; border-color: #5b95c9; box-shadow: 0 20px 70px #0007,inset 0 1px #b0d5fa1c; }
+.admin-app .modal .close,.admin-app .review-modal>header button { color: #d0e9ff; background: transparent; border: 0; }
+.admin-app .modal label { color: #c6def3; }
+.admin-app .upload-zone { color: #b6dfff; background: #123352; border-color: #739fc8; }
+.admin-app .upload-zone small { color: #b7cfe5; }
+.admin-app .upload-zone input { background: transparent; }
+.admin-app .upload-progress { color: #b2d7f6; }
+.admin-app .empty-icon { color: #a6d3ff; background: #15365b; border-color: #5c8cba; box-shadow: none; }
+.admin-app .empty h3 { color: #d6eaff; }
+.admin-app .empty p { color: #b1cce2; }
+.admin-app .review-modal>header,.admin-app .review-side,.admin-app .comments article,.admin-app .review-list article { border-color: #355a81; }
+.admin-app .player-area { background: #061326; }
+.admin-app .player-caption,.admin-app .comments p { color: #b8d2e9; }
+.admin-app .timecode { color: #c3e5ff; background: #1b4269; }
+.admin-app .review-side h3 span { color: #b8ddff; }
+.admin-app .toast { color: #eaf6ff; background: #18436e; border-color: #78b6ed; box-shadow: 0 8px 28px #0004; }
+
+/* The external view stays calm; blue is used for hierarchy, not decoration. */
+.evaluator-app .sidebar { background: linear-gradient(180deg,#102b51,#10243f); }
+.evaluator-app .nav-item.current { background: #254b76; box-shadow: inset 3px 0 #82b8f1; }
+.evaluator-app .project-item.selected { background: #1a3c64; }
+.evaluator-app .reviewer-intro { border-left-color: #2e67a2; }
+.evaluator-app .reviewer-intro li span { background: #e7f0fc; color: #2e5c8a; }
+.evaluator-app .filters button.active { background: #214f86; border-color: #214f86; }
+.evaluator-app button.primary,.evaluator-app a.primary { background: #225693; border-color: #225693; }
+.evaluator-app button.primary:hover,.evaluator-app a.primary:hover { background: #163e70; }
+.evaluator-app .panel-tabs button.active::after { background: #2d6bb3; }
+.evaluator-app .video-thumb { background: #e8f1fc; color: #32669b; }
+.evaluator-app .timecode { background: #e6f0fc; color: #255c97; }
+
+@media(max-width:1150px) { .welcome .login-card { padding: 30px; } }
+@media(max-width:800px) {
+  .welcome { border-radius: 13px; }
+  .welcome-nav { padding-top: 26px; }
+  .welcome-grid { padding-top: 22px; padding-bottom: 27px; }
+  .welcome .login-card { padding: 26px; border-radius: 15px; }
+  .welcome .review-orbit { height: 177px; }
+  .admin-app .sidebar { background: #0a2345; }
+  .admin-app .sidebar .project-item { background: #12345c; }
+  .admin-app .sidebar .project-item.selected { background: #245083; }
+  .admin-app .sidebar .brand .brand-subtitle { font-size: 12px; }
+  .evaluator-app .sidebar { background: #102b51; }
+}
