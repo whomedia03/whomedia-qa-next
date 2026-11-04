@@ -64,6 +64,9 @@ p, small, .muted { color: var(--muted); }
 h1, h2, h3 { color: #efffff; }
 .eyebrow { color: var(--cyan); letter-spacing: 2.4px; }
 .brand { color: #f1ffff; }
+.brand-wordmark { display: inline-flex; align-items: baseline; font-size: 24px; font-weight: 800; letter-spacing: .5px; line-height: 1.2; }
+.brand-who { color: #ff4b4b; }
+.brand-media { color: #fff; }
 .brand small { color: #92b2be; }
 .brand-icon { color: var(--cyan); text-shadow: 0 0 17px #67fff13d; }
 .brand-icon>span { color: var(--red); text-shadow: 0 0 12px #ff5a5099; }
