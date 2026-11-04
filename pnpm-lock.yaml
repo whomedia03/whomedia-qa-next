@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@types/node':
+        specifier: 26.6.6
+        version: 26.6.6
       '@vercel/blob':
         specifier: 2.8.2
         version: 2.8.2
@@ -24,9 +27,6 @@ importers:
         specifier: 19.3.1
         version: 19.3.1(react@19.3.1)
     devDependencies:
-      '@types/node':
-        specifier: 26.6.6
-        version: 26.6.6
       '@types/qrcode':
         specifier: 1.5.6
         version: 1.5.6
