@@ -1,11 +1,5 @@
 {
   "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "noCheck": true,
-    "types": []
-  },
-  "include": [
-    "./index.ts",
-    "../lib/**/*.ts"
-  ]
+  "compilerOptions": { "noCheck": true, "types": [] },
+  "include": ["./index.ts", "../lib/**/*.ts"]
 }
