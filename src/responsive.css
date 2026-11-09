@@ -24,7 +24,7 @@
  .app .sidebar .workspace-label,.app .sidebar-bottom { display:none; }
  .app .sidebar nav { display:flex; gap:8px; overflow-x:auto; padding:4px 0 8px; }
  .app .sidebar .project-item { flex:0 0 auto; width:auto; min-height:44px; margin:0; }
- .app .sidebar .nav-item { min-height:44px; }
+ .app .sidebar .nav-item { display:flex; min-height:44px; margin-top:8px; }
  .app .main-shell { margin-left:0; width:100%; }
  .app .topbar { padding:12px 16px; min-height:54px; height:auto; box-sizing:border-box; }
  .topbar>span { min-width:0; overflow-wrap:anywhere; }
