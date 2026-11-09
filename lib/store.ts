@@ -4,8 +4,8 @@ export async function read<T>(path: string): Promise<T | null> {
  if (!result || result.statusCode !== 200) return null;
  return await new Response(result.stream).json() as T;
 }
-export async function write(path: string, value: unknown) {
- await put(path, JSON.stringify(value), { access: 'private', addRandomSuffix: false, contentType: 'application/json' });
+export async function write(path: string, value: unknown, overwrite = false) {
+ await put(path, JSON.stringify(value), { access: 'private', addRandomSuffix: false, allowOverwrite: overwrite, contentType: 'application/json' });
 }
 export async function records<T>(prefix: string): Promise<T[]> {
  let cursor: string | undefined; const paths: string[] = [];

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { CheckCircle2, Clock3, Copy, FileVideo, Info, LoaderCircle, MessageSquare, Pause, Play, RotateCcw, RotateCw, Send, X, XCircle } from 'lucide-react';
+import { latestStatus } from '../lib/review-status';
 import type { Data, Review } from '../lib/types';
 
-export type ReviewDraft = Pick<Review, 'author' | 'text' | 'time' | 'status' | 'timestampAttached'>;
+export type ReviewDraft = Pick<Review, 'author' | 'text' | 'time' | 'status' | 'timestampAttached' | 'kind'>;
 type Props = {
   video: Data['videos'][number];
   reviews: Review[];
@@ -12,7 +13,7 @@ type Props = {
   onCopyLink: () => Promise<void>;
   onBusyChange: (busy: boolean) => void;
 };
-const statusLabels = { pending: '검수 대기', approved: '승인', changes: '수정 요청' };
+const statusLabels = { pending: '검수 대기', approved: '승인', changes: '거절' };
 const speeds = [.5, .75, 1, 1.25, 1.5, 1.75, 2];
 export function timeLabel(seconds: number) {
   const value = Number.isFinite(seconds) && seconds > 0 ? Math.floor(seconds) : 0;
@@ -25,7 +26,7 @@ export function timeLabel(seconds: number) {
 export function ReviewPanel({ video, reviews, mediaUrl, onClose, onSave, onCopyLink, onBusyChange }: Props) {
   const player = useRef<HTMLVideoElement>(null);
   const ordered = [...reviews].sort((a, b) => b.createdAt.localeCompare(a.createdAt) || b.id.localeCompare(a.id));
-  const currentStatus = ordered[0]?.status || 'pending';
+  const currentStatus = latestStatus(reviews);
   const [status, setStatus] = useState<Review['status']>(currentStatus);
   const [tab, setTab] = useState<'comments' | 'information'>('comments');
   const [author, setAuthor] = useState('');
@@ -38,6 +39,8 @@ export function ReviewPanel({ video, reviews, mediaUrl, onClose, onSave, onCopyL
   const [saving, setSaving] = useState(false);
   const [copying, setCopying] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [feedback, setFeedback] = useState('');
+  const [decisionSelected, setDecisionSelected] = useState(false);
   const [error, setError] = useState('');
   const [mediaError, setMediaError] = useState('');
   useEffect(() => {
@@ -55,14 +58,14 @@ export function ReviewPanel({ video, reviews, mediaUrl, onClose, onSave, onCopyL
     try { if (player.current.paused) await player.current.play(); else player.current.pause(); }
     catch { setMediaError('영상을 재생하지 못했습니다. 잠시 후 다시 재생해 주세요.'); }
   }
-  async function submit() {
+  async function submit(decision = false) {
     if (saving) return;
     const name = author.trim(); const content = note.trim();
-    if (!name || !content) { setError('검수자 이름과 검수 의견을 입력해 주세요.'); return; }
+    if (!name || (!decision && !content) || (decision && status === 'changes' && !content)) { setError('검수자 이름을 입력해 주세요. 거절 또는 의견 등록 시에는 의견도 필요합니다.'); return; }
     setSaving(true); onBusyChange(true); setError('');
     try {
-      await onSave({ author: name, text: content, time: attachTime ? Math.floor(time) : 0, timestampAttached: attachTime, status });
-      setNote('');
+      await onSave({ author: name, text: content, time: !decision && attachTime ? Math.floor(time) : 0, timestampAttached: !decision && attachTime, status: decision ? status : currentStatus, kind: decision ? 'decision' : 'comment' });
+      setNote(''); setDecisionSelected(false); setFeedback(decision ? `${statusLabels[status]} 결과가 저장되었습니다.` : '검수 의견이 등록되었습니다.');
     } catch (e) { setError((e as Error).message); }
     finally { setSaving(false); onBusyChange(false); }
   }
@@ -110,16 +113,16 @@ export function ReviewPanel({ video, reviews, mediaUrl, onClose, onSave, onCopyL
             <button className="studio-close" type="button" onClick={() => { if (!saving) onClose(); }} disabled={saving} aria-label="영상 닫기"><X size={20}/></button>
           </div>
           {tab === 'comments' ? <div id="studio-comments-panel" role="tabpanel" aria-labelledby="studio-comments-tab">
-            <form onSubmit={e => { e.preventDefault(); void submit(); }}>
+            <form onSubmit={e => { e.preventDefault(); void submit(false); }}>
               <label className="studio-label">검수자<input name="author" value={author} onChange={e => setAuthor(e.target.value)} placeholder="검수자 이름" required maxLength={60} disabled={saving}/></label>
               <div className="studio-result-label"><span>검수 결과</span><span className={`status ${currentStatus}`}>{statusLabels[currentStatus]}</span></div>
               <div className="studio-status-actions" role="group" aria-label="검수 결과 선택">
-                <button type="button" className={status === 'approved' ? 'selected approved' : ''} aria-pressed={status === 'approved'} onClick={() => setStatus('approved')} disabled={saving}><CheckCircle2 size={16}/>승인</button>
-                <button type="button" className={status === 'changes' ? 'selected changes' : ''} aria-pressed={status === 'changes'} onClick={() => setStatus('changes')} disabled={saving}><XCircle size={16}/>수정 요청</button>
-                <button type="button" className={status === 'pending' ? 'selected pending' : ''} aria-pressed={status === 'pending'} onClick={() => setStatus('pending')} disabled={saving}><Clock3 size={16}/>대기로</button>
+                <button type="button" className={status === 'approved' ? 'selected approved' : ''} aria-pressed={status === 'approved'} onClick={() => { setStatus('approved'); setDecisionSelected(true); setFeedback(''); } } disabled={saving}><CheckCircle2 size={16}/>승인</button>
+                <button type="button" className={status === 'changes' ? 'selected changes' : ''} aria-pressed={status === 'changes'} onClick={() => { setStatus('changes'); setDecisionSelected(true); setFeedback(''); } } disabled={saving}><XCircle size={16}/>거절</button>
+                <button type="button" className={status === 'pending' ? 'selected pending' : ''} aria-pressed={status === 'pending'} onClick={() => { setStatus('pending'); setDecisionSelected(true); setFeedback(''); } } disabled={saving}><Clock3 size={16}/>대기</button>
               </div>
-              <p className="studio-status-help">검수 결과는 의견 등록 시 함께 저장됩니다.</p>
-              <label className="studio-label studio-note-label">검수 의견<small>필요한 장면에서 의견을 남겨 주세요.</small><textarea name="note" value={note} onChange={e => setNote(e.target.value)} placeholder="예) 03:12 자막의 표현을 확인해 주세요." required maxLength={4000} rows={4} disabled={saving}/></label>
+              <div className="decision-confirm"><p className="studio-status-help">{decisionSelected ? `${statusLabels[status]} 선택됨 · 확인 버튼을 눌러 저장하세요.` : "결과를 선택한 뒤 확인 버튼을 누르세요."}</p><button type="button" className="primary" disabled={saving || !decisionSelected} onClick={() => void submit(true)}>{saving ? "저장 중…" : `${statusLabels[status]} 확인`}</button></div>{feedback && <p className="studio-feedback" role="status">✓ {feedback}</p>}
+              <label className="studio-label studio-note-label">검수 의견<small>필요한 장면에서 의견을 남겨 주세요.</small><textarea name="note" value={note} onChange={e => setNote(e.target.value)} placeholder="예) 03:12 자막의 표현을 확인해 주세요." maxLength={4000} rows={4} disabled={saving}/></label>
               <div className="studio-submit-row"><label className="studio-attach"><input type="checkbox" checked={attachTime} onChange={e => setAttachTime(e.target.checked)} disabled={saving}/>현재 재생 시점 첨부<span>{timeLabel(time)}</span></label><button type="submit" className="primary" disabled={saving || !author.trim() || !note.trim()}>{saving ? <LoaderCircle size={14} className="spin"/> : <Send size={14}/>}의견 등록</button></div>
               {error && <div className="error" role="alert">{error}</div>}
             </form>
@@ -129,7 +132,7 @@ export function ReviewPanel({ video, reviews, mediaUrl, onClose, onSave, onCopyL
               <p>{review.text}</p><div className="studio-comment-footer">{review.timestampAttached !== false ? <button type="button" className="timecode" onClick={() => seek(review.time)}>{timeLabel(review.time)}로 이동</button> : <span>영상 전체 의견</span>}<time dateTime={review.createdAt}>{new Date(review.createdAt).toLocaleString('ko-KR')}</time></div>
             </article>) : <div className="studio-comments-empty"><MessageSquare size={23}/><p>등록된 검수 의견이 없습니다.</p></div>}</div>
           </div> : <div id="studio-information-panel" role="tabpanel" aria-labelledby="studio-information-tab" className="studio-information">
-            <FileVideo size={29}/><h3>강의 정보</h3><dl><dt>강의명</dt><dd>{video.title}</dd><dt>주차 · 차시</dt><dd>{video.week}주차 · {video.lesson}차시</dd><dt>파일명</dt><dd>{video.fileName}</dd><dt>파일 크기</dt><dd>{(video.bytes / 1024 ** 2).toFixed(1)} MB</dd><dt>영상 길이</dt><dd>{duration ? timeLabel(duration) : '불러오는 중'}</dd><dt>등록일</dt><dd>{new Date(video.createdAt).toLocaleDateString('ko-KR')}</dd></dl>
+            <FileVideo size={29}/><h3>강의 정보</h3><dl><dt>강의명</dt><dd>{video.title}</dd><dt>주차 · 차시</dt><dd>{video.week}주차 · {video.lesson}차시</dd><dt>파일명</dt><dd>{video.fileName}</dd><dt>파일 크기</dt><dd>{(video.bytes / 1024 ** 2).toFixed(1)} MB</dd><dt>영상 길이</dt><dd>{duration ? timeLabel(duration) : '불러오는 중'}</dd><dt>강의 설명</dt><dd>{video.description || "등록된 설명이 없습니다."}</dd><dt>등록일</dt><dd>{new Date(video.createdAt).toLocaleDateString('ko-KR')}</dd></dl>
           </div>}
         </aside>
       </div>

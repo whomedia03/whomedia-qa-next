@@ -102,12 +102,22 @@ export async function handler(req: Request): Promise<Response> {
    const item: Video = { id: b.id, project: b.project, title, week: b.week, lesson: b.lesson, fileName: text(b.fileName), pathname: b.pathname, bytes: blob.size, createdAt: new Date().toISOString() };
    await write(`videos/${item.project}/${item.id}.json`, item); return json(item, 201);
   }
+  if (['update-project', 'update-video'].includes(action) && req.method === 'POST') {
+   requireValue(admin, '관리자 전용 기능입니다.', 403); const b = await req.json();
+   requireValue(safeId(b.project) && (action === 'update-project' || safeId(b.video)), '항목을 확인해 주세요.');
+   const path = action === 'update-project' ? `projects/${b.project}.json` : `videos/${b.project}/${b.video}.json`;
+   const item = await read<Project | Video>(path); requireValue(item, '항목을 찾을 수 없습니다.', 404);
+   let updated;
+   if (action === 'update-project') { const name = text(b.name); requireValue(name, '프로젝트명을 입력해 주세요.'); updated = { ...item, name }; }
+   else { const title = text(b.title); requireValue(title && Number.isInteger(b.week) && b.week > 0 && b.week <= 1000 && Number.isInteger(b.lesson) && b.lesson > 0 && b.lesson <= 1000, '제목·주차·차시를 확인해 주세요.'); updated = { ...item, title, week: b.week, lesson: b.lesson }; }
+   await write(path, { ...updated, description: text(b.description, 2000), updatedAt: new Date().toISOString() }, true); return json({ ok: true });
+  }
   if (action === 'review' && req.method === 'POST') {
    const b = await req.json(); requireValue(safeId(b.project) && safeId(b.video) && mayAccess(claims, b.project, b.video), '이 영상에 접근할 수 없습니다.', 403);
    requireValue(await read(`videos/${b.project}/${b.video}.json`), '영상을 찾을 수 없습니다.', 404);
    requireValue(['pending', 'approved', 'changes'].includes(b.status) && Number.isFinite(b.time) && b.time >= 0 && b.time < 604800, '검수 내용을 확인해 주세요.');
-   const author = text(b.author, 60); const note = text(b.text, 4000); requireValue(author && note, '검수자 이름과 의견을 입력해 주세요.');
-   const item: Review = { id: randomUUID(), project: b.project, video: b.video, author, text: note, time: b.time, timestampAttached: b.timestampAttached !== false, status: b.status, createdAt: new Date().toISOString() };
+   const author = text(b.author, 60); const note = text(b.text, 4000); requireValue(!b.kind || ['decision', 'comment'].includes(b.kind), '검수 유형을 확인해 주세요.'); requireValue(author && (note || (b.kind === 'decision' && b.status !== 'changes')), '검수자 이름과 의견을 입력해 주세요.');
+   const item: Review = { id: randomUUID(), project: b.project, video: b.video, author, text: note || (b.status === 'approved' ? '승인 확정' : '검수 대기 확정'), kind: b.kind, time: b.time, timestampAttached: b.timestampAttached !== false, status: b.status, createdAt: new Date().toISOString() };
    await write(`reviews/${item.project}/${item.video}/${item.id}.json`, item); return json(item, 201);
   }
   if (action === 'delete' && req.method === 'POST') {

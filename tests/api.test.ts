@@ -7,7 +7,7 @@ process.env.BLOB_READ_WRITE_TOKEN = 'test-token';
 const memory = new Map<string, unknown>();
 await mock.module('@vercel/blob', { namedExports: {
  get: async (path: string) => memory.has(path) ? { statusCode: 200, stream: new Blob([JSON.stringify(memory.get(path))]).stream(), headers: new Headers(), blob: { contentType: 'application/json' } } : null,
- put: async (path: string, value: string) => { if (memory.has(path)) throw new Error('Duplicate record'); memory.set(path, JSON.parse(value)); },
+ put: async (path: string, value: string, options: { allowOverwrite?: boolean }) => { if (memory.has(path) && !options.allowOverwrite) throw new Error('Duplicate record'); memory.set(path, JSON.parse(value)); },
  list: async ({ prefix }: { prefix: string }) => ({ blobs: [...memory.keys()].filter(k => k.startsWith(prefix)).map(pathname => ({ pathname })), hasMore: false }),
  del: async (path: string) => { memory.delete(path); }, head: async () => ({ size: 100 })
 } });
@@ -62,6 +62,20 @@ test('API: 프로젝트·영상·의견·QR 발급 흐름 및 기관 격리', as
  assert.equal(refreshed.reviews.find((review: { text: string }) => review.text === '음량을 확인해 주세요.').timestampAttached, true);
  assert.equal((await request('review', { project, video: 'vid-a', token, body: { ...body, video: 'vid-b' } })).status, 403);
  assert.equal((await request('project', { project, video: 'vid-a', token, body: { name: 'forbidden', alias: 'forbidden' } })).status, 403);
+ const editProject = { project, name: '수정 기관', description: '외부 검수 안내' };
+ assert.equal((await request('update-project', { admin: true, body: editProject })).status, 200);
+ assert.equal((await request('update-project', { admin: true, project, video: 'vid-a', token, body: editProject })).status, 403);
+ const editVideo = { project, video: 'vid-a', title: '수정 강의', week: 2, lesson: 3, description: '강의 설명' };
+ assert.equal((await request('update-video', { admin: true, body: editVideo })).status, 200);
+ assert.equal((await request('update-video', { project, video: 'vid-a', token, body: editVideo })).status, 403);
+ assert.equal((await request('update-video', { admin: true, body: { ...editVideo, week: 0 } })).status, 400);
+ const edited = await (await request('data', { project, video: 'vid-a', token })).json();
+ assert.equal(edited.projects[0].name, '수정 기관'); assert.equal(edited.videos[0].title, '수정 강의'); assert.equal(edited.videos[0].pathname, undefined);
+ const decision = { ...body, kind: 'decision', status: 'approved', text: '', time: 0, timestampAttached: false };
+ const approved = await request('review', { project, video: 'vid-a', token, body: decision }); assert.equal(approved.status, 201); assert.equal((await approved.json()).text, '승인 확정');
+ assert.equal((await request('review', { project, video: 'vid-a', token, body: { ...decision, status: 'changes' } })).status, 400);
+ assert.equal((await request('review', { project, video: 'vid-a', token, body: { ...decision, author: '' } })).status, 400);
+ assert.equal((await request('review', { project, video: 'vid-a', token, body: { ...decision, kind: 'comment' } })).status, 400);
  const removed = await request('delete', { admin: true, body: { project, video: 'vid-a' } }); assert.equal(removed.status, 200);
  assert.equal((await request('media', { project, video: 'vid-a', token })).status, 404);
 });
