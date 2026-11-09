@@ -13,7 +13,7 @@ function text(v: unknown, max = 200) { return typeof v === 'string' ? v.trim().s
 export async function handler(req: Request): Promise<Response> {
  try {
   const url = new URL(req.url); const action = url.searchParams.get('action') || 'data';
-  requireValue(process.env.BLOB_READ_WRITE_TOKEN && process.env.ADMIN_PASSWORD && process.env.ADMIN_PASSWORD.length >= 32 && process.env.SESSION_SECRET && process.env.SESSION_SECRET.length >= 32, 'Vercel에서 Private Blob과 관리자 환경 변수를 설정해 주세요.', 503);
+  requireValue(process.env.BLOB_READ_WRITE_TOKEN && process.env.ADMIN_PASSWORD && process.env.ADMIN_PASSWORD.length >= 12 && process.env.SESSION_SECRET && process.env.SESSION_SECRET.length >= 32, 'Vercel에서 Private Blob과 관리자 환경 변수를 설정해 주세요.', 503);
   const cookie = req.headers.get('cookie')?.split(';').map(s => s.trim()).find(s => s.startsWith('qa_session='))?.slice(11) || '';
   const session = verify(cookie);
   const token = url.searchParams.get('token') || '';

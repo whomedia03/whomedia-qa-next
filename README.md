@@ -9,7 +9,7 @@
 1. GitHub에서 새 비공개 저장소를 만듭니다. 이 폴더의 파일을 올립니다. 기존 저장소와 운영 서비스는 유지합니다.
 2. Vercel에서 **Add New → Project → 새 GitHub 저장소 Import**를 선택합니다. Framework는 Vite, Node.js는 24.x입니다. 빌드 명령과 출력 폴더는 `vercel.json`에 있습니다.
 3. Vercel 프로젝트의 **Storage → Create Database / Store → Blob**에서 **Private** 저장소를 생성하고 이 프로젝트에 연결합니다. 공개 저장소를 만들지 마세요. `BLOB_READ_WRITE_TOKEN`이 자동 생성됩니다. 화면 명칭은 Vercel 업데이트에 따라 달라질 수 있습니다.
-4. **Settings → Environment Variables**에 `ADMIN_PASSWORD`, `SESSION_SECRET`을 각각 32자 이상인 서로 다른 임의 문자열로 추가합니다. 관리자 비밀번호를 저장소에 올리거나 `VITE_` 접두어를 붙이지 마세요. 비밀번호 관리자에서 생성하는 것이 간단합니다.
+4. **Settings → Environment Variables**에 `ADMIN_PASSWORD`, `SESSION_SECRET`을 관리자 비밀번호 12자 이상, 세션 비밀키 32자 이상의 서로 다른 값으로 추가합니다. 관리자 비밀번호를 저장소에 올리거나 `VITE_` 접두어를 붙이지 마세요. 비밀번호 관리자에서 생성하는 것이 간단합니다.
 5. 필요하면 `PUBLIC_APP_URL=https://새프로젝트.vercel.app`을 설정합니다. 미설정 시 Vercel이 제공하는 프로덕션 주소를 QR에 사용합니다. 환경 변수는 Production과 사용하려는 Preview 환경에 적용한 뒤 **Redeploy**합니다.
 6. `https://새프로젝트.vercel.app/admin`에서 로그인합니다. **프로젝트 만들기 → 영상 등록 → 제출 링크·QR** 순서로 사용합니다.
 
