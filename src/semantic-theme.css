@@ -81,3 +81,17 @@ body { background:#050505; background-image:none; color:var(--ui-text); }
 .app .studio-title-chip { background:#111827eb; }.app .studio-information dl { border-color:#374151; }
 .manage-card summary span,.manage-card .muted { color:#b2bdcd; }
 @media(max-width:800px) { .app .sidebar { background:#080808; border-color:#262626; }.app tr { background:#111827; border-color:#374151; }.app td[data-label]::before { color:#aebbd0; opacity:1; } }
+
+.app button.action-share,.app .action-share.button { background:#d97706; border-color:#f59e0b; color:#171717; }
+.app button.action-share:hover { background:#f59e0b; }
+.app .panel-tabs>button { padding:9px 12px; min-height:36px; }
+.app .row-actions button { min-height:34px; min-width:34px; padding:7px; }
+.app .studio-review .studio-status-actions button.approved:not(.selected) { background:#103923; color:#86efac; border-color:#288d50; }
+.app .studio-review .studio-status-actions button.changes:not(.selected) { background:#431b23; color:#fda4af; border-color:#ad4354; }
+.app .studio-review .studio-status-actions button.pending:not(.selected) { background:#332b10; color:#fde047; border-color:#9c7c20; }
+.app .studio-review .studio-status-actions button.selected.pending,.app .studio-review .studio-status-actions button.selected.pending svg { color:#171717; }
+.app .studio-review .studio-footer h2 { color:#f8fafc; }
+.app .studio-review .studio-footer p { color:#b2bdcd; }
+.app .studio-review .studio-footer button { background:#1f2937; color:#dbeafe; border:1px solid #526079; }
+@media(max-width:800px) { .app .row-actions button,.app .panel-tabs>button { min-height:44px; min-width:44px; } }
+.app .studio-review .studio-submit-row .action-save { background:#159947; border-color:#159947; color:#fff; } .app .studio-review .studio-submit-row .action-save:disabled { background:#244d36; border-color:#416c51; color:#b2cbbb; opacity:.65; } .app .studio-review .studio-comment-footer .timecode { background:#173466; color:#bfdbfe; }
